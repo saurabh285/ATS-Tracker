@@ -18,20 +18,18 @@ def get_gemini_response(input,pdf_cotent,prompt):
 
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
-        ## Convert the PDF to image
-        images=pdf2image.convert_from_bytes(uploaded_file.read(), poppler_path="/opt/homebrew/bin")
+        # Open PDF
+        pdf_document = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+        first_page = pdf_document[0]  # Get the first page
 
-        first_page=images[0]
-
-        # Convert to bytes
-        img_byte_arr = io.BytesIO()
-        first_page.save(img_byte_arr, format='JPEG')
-        img_byte_arr = img_byte_arr.getvalue()
+        # Convert to image
+        pix = first_page.get_pixmap()
+        img_byte_arr = io.BytesIO(pix.tobytes("jpeg"))
 
         pdf_parts = [
             {
                 "mime_type": "image/jpeg",
-                "data": base64.b64encode(img_byte_arr).decode()  # encode to base64
+                "data": base64.b64encode(img_byte_arr.getvalue()).decode()  # Encode to base64
             }
         ]
         return pdf_parts
