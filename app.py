@@ -40,9 +40,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Function to Process PDF Resume
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
-        images = pdf2image.convert_from_bytes(uploaded_file.read(), poppler_path="/usr/bin")
+        images = pdf2image.convert_from_bytes(uploaded_file.read())
         first_page = images[0]
 
         # Convert to Bytes
@@ -59,7 +60,6 @@ def input_pdf_setup(uploaded_file):
         return pdf_parts
     else:
         raise FileNotFoundError("No file uploaded")
-
 
 # Function to get AI response
 def get_gemini_response(input_text, pdf_content, prompt):
