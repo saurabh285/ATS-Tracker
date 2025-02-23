@@ -88,7 +88,7 @@ col1, col2 = st.columns(2)
 
 # Buttons with Updated Labels
 with col1:
-    submit1 = st.button("📊 Percentage Score", help="Check how well your resume matches the job description")
+    submit1 = st.button("📊 Percentage Match", help="Check how well your resume matches the job description")
     submit2 = st.button("🔍 Keywords (Matching & Missing)", help="See which keywords your resume includes or lacks")
 
 with col2:
@@ -130,7 +130,7 @@ if uploaded_file:
     pdf_content = input_pdf_setup(uploaded_file)
 
     if submit1:
-        st.markdown("#### 📊 **Percentage Score**")
+        st.markdown("#### 📊 **Percentage Match**")
         with st.spinner("Analyzing Resume..."):
             response = get_gemini_response(input_text, pdf_content, input_prompt1)
             st.success("✅ Analysis Complete!")
